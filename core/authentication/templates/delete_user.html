@@ -1,21 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Usuario</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post">
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="card-general">
+        <form method="POST" style="justify-items: center;">
             {% csrf_token %}
-            <h3>Eliminar Usuario</h3>
+            <div>
+                <h3>Eliminar Usuario</h3>
+            </div>
             <hr>
-            <p>¿Estás seguro de que deseas eliminar al usuario <strong>{{ user.username }}</strong>?</p>
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-            <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+            <div>
+                <p>¿Estás seguro de que deseas eliminar al usuario <strong>{{ user.username }}</strong>?</p>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Contraseña: {{ form.password }}</label>
+            </div>
+            <div style="margin: 15px;">
+                {{ error }}
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </form>
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}

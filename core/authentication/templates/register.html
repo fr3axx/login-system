@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Formulario de Registro</title>
-</head>
-<body>
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
     <div class="container mt-5">
         <!-- Formulario de registro -->
         <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
             {% csrf_token %}  <!-- CSRF token para seguridad -->
 
             <!-- Encabezado del formulario de registro -->
-            <h1 style="text-align: center;"><span style="color: red;">Desarrollo de Software</span></h1>
-            <h3>Registrar</h3>
+            <h3>Registrar un usuario</h3>
             <hr>
 
             <!-- Mostrar mensajes de error/éxito -->
@@ -26,19 +19,18 @@
             </div>
             {% endif %}
 
-            <!-- Campo de entrada para el primer nombre -->
             <div class="form-group">
-                <label for="exampleInputEmail1">Primer Nombre</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Ingresa tu primer nombre" name="first_name" required>
+                <label for="exampleInputEmail1">Nombre</label>
+                <input type="text" class="form-control" name="first_name" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Ingresa tu nombre" required>
             </div>
 
-            <!-- Campo de entrada para el apellido -->
             <div class="form-group">
                 <label for="exampleInputEmail1">Apellido</label>
-                <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
+                <input type="text" class="form-control" name="last_name" id="exampleInputEmail1"
                     aria-describedby="emailHelp" placeholder="Ingresa tu apellido" required>
             </div>
+
 
             <!-- Campo de entrada para el nombre de usuario -->
             <div class="form-group">
@@ -54,12 +46,17 @@
                     placeholder="Ingresa tu contraseña" required>
             </div>
 
+            <!-- Campo de entrada para confirmar la contraseña -->
+            <div class="form-group">
+                <label for="confirm_password">Confirmar Contraseña</label>
+                <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirmar Contraseña" required>
+            </div>
+
             <!-- Enlace a la página de inicio de sesión para usuarios que ya tienen una cuenta -->
-            <p>¿Ya tienes una cuenta? <a href="/login/">Iniciar sesión</a> </p>
+            <p>¿Ya tienes una cuenta? <a href="{% url 'signin' %}">Iniciar sesión</a> </p>
 
             <!-- Botón de envío -->
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock content %}

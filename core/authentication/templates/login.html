@@ -1,31 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
 <body>
     <div class="container mt-5">
         <!-- Formulario de inicio de sesión -->
         <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
-            <h1 style="text-align: center;"><span style="color: red;">Desarrollo de Software</span></h1>
+
 
             {% csrf_token %}  <!-- CSRF token para seguridad -->
 
             <!-- Encabezado del formulario de inicio de sesión -->
             <h3>Iniciar Sesión</h3>
-            <hr>
 
-            <!-- Mostrar mensajes de error/éxito -->
             {% if messages %}
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-danger">
                 {% for message in messages %}
-                {{ message }}
+                    <p>{{ message }}</p>
                 {% endfor %}
             </div>
             {% endif %}
+
+            <hr>
 
             <!-- Campo de entrada para el nombre de usuario -->
             <div class="form-group">
@@ -41,11 +36,11 @@
             </div>
 
             <!-- Enlace a la página de registro -->
-            <p>¿No tienes una cuenta? <a href="/register/">Regístrate</a> </p>
+            <p>¿No tienes una cuenta? <a href="{% url 'signup' %}">Regístrate</a> </p>
 
             <!-- Botón de envío -->
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary">Iniciar sesion</button>
         </form>
     </div>
-</body>
-</html>
+
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOYA-ENTERPRISES</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link  rel="stylesheet" type="text/css" href="https://bootswatch.com/5/zephyr/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="home">
+                <img src="{% static 'img/logo.png' %}" alt="MOYA-ENTERPRISES CCS">
+            </a>
+        </div>
+        {% comment %} <div class="mode-toggle">
+            <img src="{% static 'img/moon.svg' %}" alt="Modo oscuro" id="mode-toggle-btn">
+        </div> {% endcomment %}
+        <nav>
+            <ul>
+                {% if user_is_authenticated %}
+                <li>
+                    <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li>
+                    <a href="{% url 'signout' %}">Cerrar Sesion</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'signin' %}">Iniciar Sesión</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>     
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="logo">
+            <a href="home">
+                <img src="{% static 'img/logo.png' %}" alt="MOYA-ENTERPRISES CCS">
+            </a>
+        </div>
+        <p>&copy; 2025 MOYA-ENTERPRISES. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const menuItems = document.querySelectorAll('.menu > li');
+
+    // Función para cerrar todos los submenús
+    function closeAllSubmenus() {
+        menuItems.forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+
+    // Agregar evento de clic a cada elemento del menú
+    menuItems.forEach(item => {
+        item.addEventListener('click', function (event) {
+            // Evitar que el clic se propague al documento
+            event.stopPropagation();
+
+            // Cerrar todos los submenús antes de abrir el actual
+            if (!item.classList.contains('active')) {
+                closeAllSubmenus();
+            }
+
+            // Alternar la clase "active" en el elemento clicado
+            item.classList.toggle('active');
+        });
+    });
+
+    // Cerrar todos los submenús al hacer clic en cualquier parte del documento
+    document.addEventListener('click', function () {
+        closeAllSubmenus();
+    });
+});
+</script>
+</html>
