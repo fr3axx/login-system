@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Formulario de inicio de sesión -->
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+            <h1 style="text-align: center;"><span style="color: red;">Desarrollo de Software</span></h1>
+
+            {% csrf_token %}  <!-- CSRF token para seguridad -->
+
+            <!-- Encabezado del formulario de inicio de sesión -->
+            <h3>Iniciar Sesión</h3>
+            <hr>
+
+            <!-- Mostrar mensajes de error/éxito -->
+            {% if messages %}
+            <div class="alert alert-primary" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Campo de entrada para el nombre de usuario -->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre de Usuario</label>
+                <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Nombre de Usuario" required>
+            </div>
+
+            <!-- Campo de entrada para la contraseña -->
+            <div class="form-group">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" required>
+            </div>
+
+            <!-- Enlace a la página de registro -->
+            <p>¿No tienes una cuenta? <a href="/register/">Regístrate</a> </p>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

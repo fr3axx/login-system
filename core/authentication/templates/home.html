@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="color: red;">Bienvenido a la pagina principal!</title>
+    <link  rel="stylesheet" type="text/css" href="https://bootswatch.com/5/zephyr/bootstrap.min.css"/>
+    <style>
+        .container {
+            text-align: center;
+            margin: 100px auto;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: red;
+            font-weight: bold;
+        }
+
+        img {
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Bienvenido a la pagina principal!</h1>
+
+        <div style="margin: 15px;">
+        <img src="https://media.giphy.com/media/q0s0NVKnLk5WGvsLh3/giphy.gif?cid=790b7611bh56a9pj3ryg7jmkqqrs400j3ilo3tg5pf9dxoux&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Welcome Cartoon">
+        </div>
+        <div>
+            <a href="{% url 'edit_user' user.id %}" class="btn btn-primary">Editar Usuario</a>
+            <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Eliminar Usuario</a>
+        </div>    
+    </div>
+</body>
+</html>
