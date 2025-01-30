@@ -6,12 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 
-def home(request, user_id):
-    user = User.objects.get(id=user_id)
+@login_required
+def home(request):
     users = User.objects.all()
     context = {
-        'user': user,
-        'users': users
+        'users': users,
+        'user': request.user,
+        'user_is_authenticated': request.user.is_authenticated
     }
     return render(request, 'home.html', context)
 
@@ -62,6 +63,7 @@ def register_page(request):
     
     return render(request, 'register.html')
 
+@login_required
 def edit_user(request, user_id):
     user = User.objects.get(id=user_id)
     if request.method == 'POST':
