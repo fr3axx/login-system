@@ -16,7 +16,13 @@
                 <label for="{{ form.password.id_for_label }}">Contraseña: {{ form.password }}</label>
             </div>
             <div style="margin: 15px;">
-                {{ error }}
+                {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
 
             <div>
