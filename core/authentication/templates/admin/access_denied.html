@@ -1,0 +1,13 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h3>Acceso Denegado</h3>
+        <p>No tienes permiso para acceder a esta página porque no perteneces al grupo de administradores.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver a la página principal</a>
+    </div>
+</div>
+
+{% endblock content%}

@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User, Group
 from .models import *
 from .forms import PasswordVerificationForm
 
@@ -100,6 +100,28 @@ def delete_user(request, user_id):
             'user_is_authenticated': request.user.is_authenticated
         }
         return render(request, 'delete_user.html', context)
+
+def admin_check(user, login_url='access_denied'):
+    print(user.groups)
+    return user.groups.filter(name='administrador').exists()
+
+
+@user_passes_test(admin_check)
+@login_required
+def admin_page(request):
+    context = {
+        'user_is_authenticated': request.user.is_authenticated,
+        'user': request
+    }
+    return render(request, 'admin/admin.html', context)
+
+@login_required
+def access_denied(request):
+    context = {
+        'user_is_authenticated': request.user.is_authenticated,
+        'user': request
+    }
+    return render(request, 'access_denied.html', context)
 
 @login_required
 def signout(request):
