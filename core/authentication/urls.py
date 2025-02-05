@@ -12,6 +12,7 @@ urlpatterns = [
 
     #ADMIN
     path('admincito/', views.admin_page, name='admin_page'),  # Admin page
+    path('admincito/edit_user/<int:user_id>/', views.edit_user_admin, name='edit_user_admin'),  # Edit user page
     path('access_denied/', views.access_denied, name='access_denied'),  # Access denied page
     
 ]

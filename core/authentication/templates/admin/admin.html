@@ -1,7 +1,51 @@
 {% extends "layouts/base.html" %}
 {% load static %}
 {% block content %}
+    <div class="container">
+        <div class="card-general">
+            <div>
+                <h1>Bienvenido a la pagina de Administrador!</h1>
+            </div>
+            <div style="margin: 15px;">
+                <img src="https://media.giphy.com/media/q0s0NVKnLk5WGvsLh3/giphy.gif?cid=790b7611bh56a9pj3ryg7jmkqqrs400j3ilo3tg5pf9dxoux&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Welcome Cartoon">
+            </div>
+            <div>
+                <a href="{% url 'edit_user' user.id %}" class="btn btn-primary">Editar Usuario</a>
+                <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Eliminar Usuario</a>
+            </div>   
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="th sort-both">ID</th>
+                        <th class="th sort-both">Nombre</th>
+                        <th class="th sort-both">Apellido</th>
+                        <th class="th sort-both">Usuario</th>
+                        <th class="th sort-both">Grupo</th>
+                        <th class="th sort-both">Clave</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody id="clientesTableBody">
+                    {% for user_with_group in users_with_groups %}
+                    <tr>
+                        <td>{{ user_with_group.user.id }}</td>
+                        <td>{{ user_with_group.user.first_name }}</td>
+                        <td>{{ user_with_group.user.last_name }}</td>
+                        <td>{{ user_with_group.user.username }}</td>
+                        <td>
+                            {% for group in user_with_group.groups %}
+                                {{ group }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ user_with_group.user.password }}</td>
+                        <td><a href="{% url 'edit_user_admin' user_with_group.user.id %}">Editar</a>/<a href="{% url 'delete_user' user_with_group.user.id %}">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-ADMIN SITE
-
-{% endblock content%}
+{% endblock content %}

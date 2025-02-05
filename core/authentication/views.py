@@ -102,18 +102,55 @@ def delete_user(request, user_id):
         return render(request, 'delete_user.html', context)
 
 def admin_check(user, login_url='access_denied'):
-    print(user.groups)
     return user.groups.filter(name='administrador').exists()
 
 
 @user_passes_test(admin_check)
 @login_required
 def admin_page(request):
+    users = User.objects.all()
+    users_with_groups = []
+    
+    for user in users:
+        user_groups = user.groups.all()
+        group_names = [group.name for group in user_groups]
+        users_with_groups.append({
+            'user': user,
+            'groups': group_names
+        })
+
     context = {
+        'users': users,
+        'users_with_groups': users_with_groups,
+        'user': request.user,
         'user_is_authenticated': request.user.is_authenticated,
-        'user': request
+        
     }
     return render(request, 'admin/admin.html', context)
+
+@user_passes_test(admin_check)
+@login_required
+def edit_user_admin(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.username = request.POST['username']
+        
+        # Manejar la actualización de la contraseña
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        if password and password == confirm_password:
+            user.set_password(password)
+        elif password != confirm_password:
+            messages.error(request, 'Las contraseñas no coinciden')
+            return redirect('edit_user', user_id=user_id)
+        
+        user.save()
+        messages.success(request, 'Usuario actualizado con éxito')
+        return redirect('admin_page')
+    
+    return render(request, 'admin/edit_user.html', {'user': user, 'user_is_authenticated': request.user.is_authenticated})
 
 @login_required
 def access_denied(request):
