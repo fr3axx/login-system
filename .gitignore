@@ -1,0 +1,13 @@
+#env
+venv
+core/venv
+
+#caches
+core/__pycache__
+core/authentication/migrations
+core/authentication/__pycache__
+core/core/__pycache__/
+
+#secret files
+.env
+secretito.py
