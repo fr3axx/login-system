@@ -11,3 +11,4 @@ core/core/__pycache__/
 #secret files
 .env
 secretito.py
+tmp
