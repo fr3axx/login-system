@@ -152,6 +152,17 @@ def edit_user_admin(request, user_id):
     
     return render(request, 'admin/edit_user.html', {'user': user, 'user_is_authenticated': request.user.is_authenticated})
 
+#PRODUCTOS
+@login_required
+def productos(request):
+    productos = Producto.objects.all()
+    context = {
+        'productos': productos,
+        'user': request.user,
+        'user_is_authenticated': request.user.is_authenticated
+    }
+    return render(request, 'productos/productos.html', context)
+
 @login_required
 def access_denied(request):
     context = {

@@ -15,4 +15,6 @@ urlpatterns = [
     path('admincito/edit_user/<int:user_id>/', views.edit_user_admin, name='edit_user_admin'),  # Edit user page
     path('access_denied/', views.access_denied, name='access_denied'),  # Access denied page
     
+    #PRODUCTOS
+    path('productos/', views.productos, name='productos'),  # Productos page
 ]
