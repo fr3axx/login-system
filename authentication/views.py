@@ -163,6 +163,7 @@ def productos(request):
     }
     return render(request, 'productos/productos.html', context)
 
+#login
 @login_required
 def access_denied(request):
     context = {
@@ -174,4 +175,4 @@ def access_denied(request):
 @login_required
 def signout(request):
     logout(request)
-    return redirect('signin')
+    return redirect('signin') 
