@@ -90,6 +90,20 @@ nav ul li a:hover {
     margin: 0 auto; /* Centrar el contenedor */
     padding: 20px; /* Espaciado interno */
 }
+.btn-carrito {
+    background-color: #007bff;
+    color: white;
+    padding: 3px 6px; /* Ajustar el padding para hacer el botón más pequeño */
+    font-size: 12px; /* Ajustar el tamaño de la fuente */
+    border-radius: 4px; /* Ajustar el radio de los bordes */
+}
+
+.carrito-img {
+    background-color: #007bff;
+    color: white;
+    padding: 3px; /* Ajustar el padding para hacer el botón más pequeño */
+    border-radius: 4px; /* Ajustar el radio de los bordes */
+}
 
 footer {
     margin-top: auto;

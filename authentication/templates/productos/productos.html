@@ -7,11 +7,18 @@
         {% for producto in productos %}
         <div class="product-card">
             {% if producto.imagen %}
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            <div>
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            </div>
             {% else %} 
             <img src="{% static 'img/default-product.png' %}" alt="Imagen no disponible">
             {% endif %}
-            <h3>{{ producto.nombre }} {{ producto.precio }}$</h3>
+            <div style="display: flex; align-items: flex-end; margin-top: 10px;">
+                <h3>{{ producto.nombre }} {{ producto.precio }}$</h3>
+                <a class="btn btn-carrito" style="margin-left: 20px;">
+                    <img class="carrito-img" src="{% static 'img/carrito.png' %}" alt="Agregar al Carrito" style="max-width:5vh;">
+                </a>
+            </div>
         </div>
         {% endfor %}
     </div>
