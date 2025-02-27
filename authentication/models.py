@@ -29,21 +29,3 @@ class TipodePago(models.Model):
     def __str__(self):
         return self.tipo_pago
 
-class Pedido(models.Model):
-    productos = models.ManyToManyField(Producto)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    iva = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    total_a_pagar = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    fecha = models.DateTimeField(auto_now_add=True)
-
-    def calcular_totales(self):
-        self.subtotal = sum(producto.precio for producto in self.productos.all())
-        self.iva = self.subtotal * 0.16
-        self.total_a_pagar = self.subtotal + self.iva
-
-    def save(self, *args, **kwargs):
-        self.calcular_totales()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Pedido #{self.id} - Total: {self.total_a_pagar}"

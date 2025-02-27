@@ -163,6 +163,17 @@ def productos(request):
     }
     return render(request, 'productos/productos.html', context)
 
+@login_required
+def producto_detalles(request, producto_id):
+    if request.method == 'GET':
+        producto = Producto.objects.get(id=producto_id)
+        context = {
+            'producto': producto,
+            'user': request.user,
+            'user_is_authenticated': request.user.is_authenticated
+        }
+        return render(request, 'productos/producto_detalles.html', context)
+    
 #login
 @login_required
 def access_denied(request):

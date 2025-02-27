@@ -72,6 +72,14 @@ nav ul li a:hover {
     margin-left: auto; /* Push the logout button to the right */
 }
 
+.description-container {
+    font-size: 15px;
+    width: 400px; 
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
 .card-general {
     display: flex;
     flex-direction: column;

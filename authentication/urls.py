@@ -17,4 +17,6 @@ urlpatterns = [
     
     #PRODUCTOS
     path('productos/', views.productos, name='productos'),  # Productos page
+    path('producto_detalles/<int:producto_id>', views.producto_detalles, name='producto_detalles'),
+    
 ]
