@@ -6,6 +6,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
+    imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -23,6 +24,16 @@ class Carrito(models.Model):
             carrito_producto.cantidad += 1
             carrito_producto.save()
 
+    def eliminar_producto(self, producto):
+        carrito_producto = CarritoProducto.objects.get(carrito=self, producto=producto)
+        if carrito_producto.cantidad > 1:
+            carrito_producto.cantidad -= 1
+            carrito_producto.save()
+        else:
+            carrito_producto.delete()
+
+    def vaciar_carrito(self):
+        self.carritoproducto_set.all().delete()
     def eliminar_producto(self, producto):
         carrito_producto = CarritoProducto.objects.get(carrito=self, producto=producto)
         if carrito_producto.cantidad > 1:
