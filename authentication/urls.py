@@ -24,4 +24,5 @@ urlpatterns = [
     path('ver_carrito/', views.ver_carrito, name='ver_carrito'),  # Ver carrito page
     path('ver_carrito/agregar_al_carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'), # Add to cart page
     path('ver_carrito/eliminar_del_carrito/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),  # Remove from cart page
+    path('carrito/agregar/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
 ]

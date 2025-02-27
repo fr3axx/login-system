@@ -17,7 +17,7 @@
                 <a href="{% url 'producto_detalles' producto.id %}">
                     <h3>{{ producto.nombre }} {{ producto.precio }}$</h3>
                 </a>
-                <a class="btn btn-carrito" style="margin-left: 20px;" >
+                <a class="btn btn-carrito" href="{% url 'agregar_al_carrito' producto.id %}" style="margin-left: 20px;">
                     <img class="carrito-img" src="{% static 'img/carrito.png' %}" alt="Agregar al Carrito" style="max-width:5vh;">
                 </a>
             </div>
