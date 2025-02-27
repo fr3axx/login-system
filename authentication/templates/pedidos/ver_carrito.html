@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Carrito de compras</h2>
+{% if productos_en_carrito %}
+    <ul>
+    {% for item in productos_en_carrito %}
+        <li>{{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'productos' %}">Sequir comprando</a>
+{% else %}
+    <p>El carrito esta vacio.</p>
+    <a href="{% url 'productos' %}">Ver productos</a>
+{% endif %}
+{% endblock %}

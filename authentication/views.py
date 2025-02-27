@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User, Group
 from .models import *
+from .models import Producto, Carrito, CarritoProducto
+from django.shortcuts import get_object_or_404
 from .forms import PasswordVerificationForm
 
 @login_required
@@ -186,4 +188,35 @@ def access_denied(request):
 @login_required
 def signout(request):
     logout(request)
-    return redirect('signin') 
+    return redirect('signin')
+
+#Carrito
+@login_required
+def ver_carrito(request):
+    carrito, created = Carrito.objects.get_or_create(user=request.user)
+    productos_en_carrito = CarritoProducto.objects.filter(carrito=carrito)
+    context = {
+        'productos_en_carrito': productos_en_carrito,
+        'user_is_authenticated': request.user.is_authenticated
+    }
+    return render(request, 'carrito/ver_carrito.html', context)
+
+@login_required
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    carrito, created = Carrito.objects.get_or_create(user=request.user)
+    carrito_producto, created = CarritoProducto.objects.get_or_create(carrito=carrito, producto=producto)
+    if not created:
+        carrito_producto.cantidad += 1
+        carrito_producto.save()
+    messages.success(request, f'{producto.nombre} ha sido añadido al carrito.')
+    return redirect('productos')
+
+@login_required
+def eliminar_del_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    carrito = Carrito.objects.get(user=request.user)
+    carrito_producto = CarritoProducto.objects.get(carrito=carrito, producto=producto)
+    carrito_producto.delete()
+    messages.success(request, f'{producto.nombre} ha sido eliminado del carrito.')
+    return redirect('ver_carrito')
