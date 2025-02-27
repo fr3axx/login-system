@@ -1,16 +1,44 @@
 {% extends "layouts/base.html" %}
 {% load static %}
 {% block content %}
-<h2>Carrito de compras</h2>
-{% if productos_en_carrito %}
-    <ul>
-    {% for item in productos_en_carrito %}
-        <li>{{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}</li>
-    {% endfor %}
-    </ul>
-    <a href="{% url 'productos' %}">Sequir comprando</a>
-{% else %}
-    <p>El carrito esta vacio.</p>
-    <a href="{% url 'productos' %}">Ver productos</a>
-{% endif %}
+<div class="container mt-5">
+    <h2>Carrito de compras</h2>
+    {% if productos_en_carrito %}
+        <ul class="list-group">
+        {% for item in productos_en_carrito %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}$
+                <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+        <a href="{% url 'productos' %}" class="btn btn-primary mt-3">Seguir comprando</a>
+    {% else %}
+        <p>El carrito está vacío.</p>
+        <a href="{% url 'productos' %}" class="btn btn-primary">Ver productos</a>
+    {% endif %}
+</div>
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+</style>
 {% endblock content %}
