@@ -1,25 +1,44 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 <div class="container mt-5">
     <div class="card-carrito">
         <h2>Carrito de compras</h2>
         {% if productos_en_carrito %}
-            <ul class="list-group">
-            {% for item in productos_en_carrito %}
-                <div>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}$
-                        <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                        </form>
-                    </li>
-                </div>
-            {% endfor %}
-            </ul>
-            <a href="{% url 'productos' %}" class="btn btn-primary mt-3">Seguir comprando</a>
-            <a href="{% url 'facturacion' %}" class="btn btn-success mt-3">Finalizar compra</a>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in productos_en_carrito %}
+                    <tr>
+                        <td><img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="img-thumbnail" style="width: 100px;"></td>
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>{{ item.producto.precio }}$</td>
+                        <td>{{ item.cantidad|multiply:item.producto.precio }}$</td>
+                        <td>
+                            <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between mt-3">
+                <a href="{% url 'productos' %}" class="btn btn-primary">Seguir comprando</a>
+                <a href="{% url 'facturacion' %}" class="btn btn-success">Finalizar compra</a>
+            </div>
         {% else %}
             <p>El carrito está vacío.</p>
             <a href="{% url 'productos' %}" class="btn btn-primary">Ver productos</a>
@@ -32,10 +51,12 @@
         margin: 0 auto;
         padding: 20px;
     }
-    .list-group-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .table {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .img-thumbnail {
+        max-width: 100px;
     }
     .btn-danger {
         background-color: #dc3545;
