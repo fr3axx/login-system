@@ -9,6 +9,7 @@ core/core/__pycache__/
 authentication/__pycache__
 authentication/migrations/
 authentication/migrations/__pycache__
+authentication/templatetags/__pycache__
 
 #secret files
 .env
