@@ -281,4 +281,6 @@ def generar_factura_pdf(request):
     # Vaciar el carrito después de generar la factura
     carrito.vaciar_carrito()
 
+    # Redirigir al usuario a la página de productos después de generar el PDF
+    response['Location'] = '/productos/'
     return response
