@@ -1,9 +1,11 @@
 # Import necessary modules and models
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+from xhtml2pdf import pisa
 from .models import *
 from decimal import Decimal, ROUND_HALF_UP
 from .models import Producto, Carrito, CarritoProducto
@@ -234,9 +236,10 @@ def facturacion(request):
     carrito = get_object_or_404(Carrito, usuario=request.user)
     productos_en_carrito = CarritoProducto.objects.filter(carrito=carrito)
     subtotal = sum(item.cantidad * item.producto.precio for item in productos_en_carrito)
-    percent = Decimal(0.16).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    iva = (subtotal * Decimal(percent)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    total_a_pagar = (subtotal + iva).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    subtotal=Decimal(subtotal).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    percent = Decimal('0.16')
+    iva = (subtotal * percent)
+    total_a_pagar = (subtotal + iva)
     context = {
         'productos_en_carrito': productos_en_carrito,
         'subtotal': subtotal,
@@ -246,3 +249,36 @@ def facturacion(request):
         'user_is_authenticated': request.user.is_authenticated
     }
     return render(request, 'pagos/facturacion.html', context)
+
+@login_required
+def generar_factura_pdf(request):
+    carrito = get_object_or_404(Carrito, usuario=request.user)
+    productos_en_carrito = CarritoProducto.objects.filter(carrito=carrito)
+    subtotal = sum(item.cantidad * item.producto.precio for item in productos_en_carrito)
+    subtotal=Decimal(subtotal).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    percent = Decimal('0.16')
+    iva = (subtotal * percent)
+    total_a_pagar = (subtotal + iva)
+    context = {
+        'productos_en_carrito': productos_en_carrito,
+        'subtotal': subtotal,
+        'iva': iva,
+        'percent': percent,
+        'total_a_pagar': total_a_pagar,
+        'user_is_authenticated': request.user.is_authenticated
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="factura.pdf"'
+
+    template = get_template('pagos/factura_pdf.html')
+    html = template.render(context)
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('Error al generar el PDF: %s' % pisa_status.err, status=400)
+
+    # Vaciar el carrito después de generar la factura
+    carrito.vaciar_carrito()
+
+    return response

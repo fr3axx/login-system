@@ -1,8 +1,36 @@
-{% extends "layouts/base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% block content %}
-<div class="container mt-5">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .table, .table th, .table td {
+            border: 1px solid black;
+        }
+        .table th, .table td {
+            padding: 8px;
+            text-align: left;
+        }
+        .total {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
     <h1 class="text-center">Factura</h1>
     <div class="factura-container">
         <table class="table table-bordered">
@@ -34,22 +62,7 @@
             <h3>IVA (16%): {{ iva|to_two_decimals }}$</h3>
             <h3>Total a Pagar: {{ total_a_pagar|to_two_decimals }}$</h3>
         </div>
-        <a href="{% url 'generar_factura_pdf' %}" class="btn btn-primary mt-3">Finalizar Compra</a>
     </div>
 </div>
-<style>
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    .table {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    .total {
-        text-align: right;
-        margin-top: 20px;
-    }
-</style>
-{% endblock content %}
+</body>
+</html>

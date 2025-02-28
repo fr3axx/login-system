@@ -26,4 +26,5 @@ urlpatterns = [
     path('ver_carrito/eliminar_del_carrito/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),  # Remove from cart page
     path('carrito/agregar/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('facturacion/', views.facturacion, name='facturacion'),  # Billing page
+    path('generar_factura_pdf/', views.generar_factura_pdf, name='generar_factura_pdf'),
 ]
