@@ -2,24 +2,28 @@
 {% load static %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Carrito de compras</h2>
-    {% if productos_en_carrito %}
-        <ul class="list-group">
-        {% for item in productos_en_carrito %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}$
-                <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                </form>
-            </li>
-        {% endfor %}
-        </ul>
-        <a href="{% url 'productos' %}" class="btn btn-primary mt-3">Seguir comprando</a>
-    {% else %}
-        <p>El carrito está vacío.</p>
-        <a href="{% url 'productos' %}" class="btn btn-primary">Ver productos</a>
-    {% endif %}
+    <div class="card-carrito">
+        <h2>Carrito de compras</h2>
+        {% if productos_en_carrito %}
+            <ul class="list-group">
+            {% for item in productos_en_carrito %}
+                <div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}$
+                        <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </li>
+                </div>
+            {% endfor %}
+            </ul>
+            <a href="{% url 'productos' %}" class="btn btn-primary mt-3">Seguir comprando</a>
+        {% else %}
+            <p>El carrito está vacío.</p>
+            <a href="{% url 'productos' %}" class="btn btn-primary">Ver productos</a>
+        {% endif %}
+    </div>
 </div>
 <style>
     .container {

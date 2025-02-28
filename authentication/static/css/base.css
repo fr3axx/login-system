@@ -93,6 +93,19 @@ nav ul li a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
+.card-carrito {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ancho del 80% */
+    margin: 20px auto; /* Centrar la tarjeta y agregar margen superior e inferior */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f8f9fa; /* Color de fondo */
+    border: 1px solid #dee2e6; /* Borde */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
 .container {
     max-width: 50%;; /* Ancho máximo del contenedor */
     margin: 0 auto; /* Centrar el contenedor */
