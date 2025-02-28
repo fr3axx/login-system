@@ -1,54 +1,49 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-{% load custom_filters %}
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">Factura</h1>
-    <div class="factura-container">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                    <th>IVA (16%)</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in productos_en_carrito %}
-                <tr>
-                    <td>{{ item.producto.nombre }}</td>
-                    <td>{{ item.cantidad }}</td>
-                    <td>{{ item.producto.precio }}$</td>
-                    <td>{{ item.cantidad|multiply:item.producto.precio }}$</td>
-                    <td>{{ item.cantidad|multiply:item.producto.precio|multiply:0.16 }}$</td>
-                    <td>{{ item.cantidad|multiply:item.producto.precio|add:item.cantidad|multiply:item.producto.precio|multiply:0.16 }}$</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="total">
-            <h3>Subtotal: {{ subtotal }}$</h3>
-            <h3>IVA (16%): {{ iva }}$</h3>
-            <h3>Total a Pagar: {{ total_a_pagar }}$</h3>
-        </div>
+    <div class="card-carrito">
+        <h2>Carrito de compras</h2>
+        {% if productos_en_carrito %}
+            <ul class="list-group">
+            {% for item in productos_en_carrito %}
+                <div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: {{ item.producto.precio }}$
+                        <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </li>
+                </div>
+            {% endfor %}
+            </ul>
+            <a href="{% url 'productos' %}" class="btn btn-primary mt-3">Seguir comprando</a>
+            <a href="{% url 'facturacion' %}" class="btn btn-success mt-3">Finalizar compra</a>
+        {% else %}
+            <p>El carrito está vacío.</p>
+            <a href="{% url 'productos' %}" class="btn btn-primary">Ver productos</a>
+        {% endif %}
     </div>
 </div>
 <style>
     .container {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
     }
-    .table {
-        width: 100%;
-        margin-bottom: 20px;
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    .total {
-        text-align: right;
-        margin-top: 20px;
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
     }
 </style>
 {% endblock content %}
