@@ -6,9 +6,15 @@
             <div>
                 <h1>Bienvenido a la pagina principal!</h1>
             </div>
-            <div style="margin: 15px;">
-                <img src="https://media.giphy.com/media/q0s0NVKnLk5WGvsLh3/giphy.gif?cid=790b7611bh56a9pj3ryg7jmkqqrs400j3ilo3tg5pf9dxoux&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Welcome Cartoon">
-            </div>
+            <div id="map" style="height: 500px; width: 100%;"></div>
+        </div>
+    </div>
+        <style>
+            #map {
+                height: 500px;
+                width: 100%;
+            }
+        </style>
             <div>
                 <a href="{% url 'edit_user' user.id %}" class="btn btn-primary">Editar Usuario</a>
                 <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Eliminar Usuario</a>
