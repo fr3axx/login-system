@@ -1,13 +1,14 @@
 # Import necessary modules and models
-from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User, Group
+from django.contrib import messages
 from .models import *
+from decimal import Decimal, ROUND_HALF_UP
 from .models import Producto, Carrito, CarritoProducto
-from django.shortcuts import get_object_or_404
 from .forms import PasswordVerificationForm
+
 
 @login_required
 def home(request):
@@ -220,3 +221,28 @@ def eliminar_del_carrito(request, producto_id):
     carrito_producto.delete()
     messages.success(request, f'{producto.nombre} ha sido eliminado del carrito.')
     return redirect('ver_carrito')
+
+@login_required
+def vaciar_carrito(request):
+    carrito = Carrito.objects.get(usuario=request.user)
+    carrito.carritoproducto_set.all().delete()
+    messages.success(request, 'Carrito vaciado con éxito.')
+    return redirect('ver_carrito')
+
+@login_required
+def facturacion(request):
+    carrito = get_object_or_404(Carrito, usuario=request.user)
+    productos_en_carrito = CarritoProducto.objects.filter(carrito=carrito)
+    subtotal = sum(item.cantidad * item.producto.precio for item in productos_en_carrito)
+    percent = Decimal(0.16).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    iva = (subtotal * Decimal(percent)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    total_a_pagar = (subtotal + iva).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    context = {
+        'productos_en_carrito': productos_en_carrito,
+        'subtotal': subtotal,
+        'iva': iva,
+        'percent': percent,
+        'total_a_pagar': total_a_pagar,
+        'user_is_authenticated': request.user.is_authenticated
+    }
+    return render(request, 'pagos/facturacion.html', context)

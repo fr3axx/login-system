@@ -23,8 +23,8 @@
                     <td>{{ item.cantidad }}</td>
                     <td>{{ item.producto.precio }}$</td>
                     <td>{{ item.cantidad|multiply:item.producto.precio }}$</td>
-                    <td>{{ item.cantidad|multiply:item.producto.precio|multiply:0.16 }}$</td>
-                    <td>{{ item.cantidad|multiply:item.producto.precio|add:item.cantidad|multiply:item.producto.precio|multiply:0.16 }}$</td>
+                    <td>{{ item.cantidad|multiply:item.producto.precio|multiply:percent }}$</td>
+                    <td>{{ item.cantidad|multiply:item.producto.precio|add:item.cantidad|multiply:item.producto.precio|multiply:percent }}$</td>
                 </tr>
                 {% endfor %}
             </tbody>
